@@ -9,31 +9,13 @@ import java.nio.FloatBuffer;
 public class Cube {
     private FloatBuffer vertexBuffer, rotationMatrixBuffer;
     private int vbo[] = new int [1];
-    private float[] rotationMat = new float[16];
 
     public Cube(){
-        float data[] = {
-                -0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f,
+       
+        Parser p = new Parser();
+        p.Parse();
 
-                0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, -0.5f, -0.5f, //Bottom
-                -0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f,
-
-                0.5f, -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, -0.5f, //Right
-                0.5f, -0.5f, -0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
-
-                0.5f, 0.5f, 0.5f, 0.5f, 0.5f, -0.5f, 0.5f, -0.5f, -0.5f, //Back
-                -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f, 0.5f,
-
-                0.5f, 0.5f, 0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0.5f, //Top
-                -0.5f, 0.5f, -0.5f, 0.5f, 0.5f, -0.5f, 0.5f, 0.5f, 0.5f,
-
-                0.5f, 0.5f, 0.5f, -0.5f, 0.5f, 0.5f, -0.5f, 0.5f, -0.5f, //Left
-                -0.5f, -0.5f, 0.5f, -0.5f, -0.5f, -0.5f, -0.5f, 0.5f, -0.5f,
-
-                -0.5f, 0.5f, -0.5f, -0.5f, 0.5f, 0.5f, -0.5f, -0.5f, 0.5f
-        };
-
-
+        float[] data = p.getVertices();
 
         //to fill the OpenGL buffer, we need to perform our data in bytes.
         ByteBuffer temp = ByteBuffer.allocateDirect(data.length * 4);
@@ -51,47 +33,12 @@ public class Cube {
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
 
-    public void acceptRotation(float deltaTime){
-        float alpha = 0.0f;
-        rotationMat[0] = (float)Math.cos(alpha + deltaTime);
-        rotationMat[1] = (float)-Math.sin(alpha+deltaTime);
-        rotationMat[2] = 0.0f;
-        rotationMat[3] = 0.0f;
-
-        rotationMat[4] = (float)Math.sin(alpha + deltaTime);
-        rotationMat[5] = (float)Math.cos(alpha + deltaTime);
-        rotationMat[6] = 0.0f;
-        rotationMat[7] = 0.0f;
-
-        rotationMat[8] = 0.0f;
-        rotationMat[9] = 0.0f;
-        rotationMat[10] = 1.0f;
-        rotationMat[11] = 0.0f;
-
-        rotationMat[12] = 0.0f;
-        rotationMat[13] = 0.0f;
-        rotationMat[14] = 0.0f;
-        rotationMat[15] = 1.0f;
-
-        ByteBuffer temp = ByteBuffer.allocateDirect(rotationMat.length * 4);
-        temp.order(ByteOrder.nativeOrder());
-        rotationMatrixBuffer = temp.asFloatBuffer();
-        rotationMatrixBuffer.put(rotationMat);
-
-
-    }
-
-    public void pushRotationMat(int programId){
-        GLES20.glUniformMatrix4fv(GLES20.glGetUniformLocation(programId, "Rotation"),
-                1, false, rotationMatrixBuffer);
-    }
-
     //render function
     public void render(int positionAttribute){
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo[0]);
         GLES20.glEnableVertexAttribArray(positionAttribute);
         GLES20.glVertexAttribPointer(positionAttribute, 3, GLES20.GL_FLOAT, false, 0, 0);
 
-        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 36);
+        GLES20.glDrawArrays(GLES20.GL_TRIANGLES, 0, 69);
     }
 }

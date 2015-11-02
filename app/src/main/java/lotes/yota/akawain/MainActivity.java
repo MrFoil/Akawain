@@ -7,9 +7,10 @@ import android.opengl.GLSurfaceView;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.Window;
 import java.io.File;
 import java.util.Scanner;
-import android.view.View;
 
 
 import javax.microedition.khronos.egl.EGLConfig;
@@ -26,6 +27,12 @@ public class MainActivity extends Activity {
         // Create a GLSurfaceView instance and set it
         // as the ContentView for this Activity
         mGLView = new MyGLSurfaceView(this);
+
+        // FULLSCREEN
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, 
+                            WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(mGLView);
     }
 

@@ -19,7 +19,7 @@ public class Loader{
         String retrieved;
 
         final StringBuilder builder = new StringBuilder();
-
+        
         try {
             while((retrieved = buffer.readLine()) != null) {
                 builder.append(retrieved);

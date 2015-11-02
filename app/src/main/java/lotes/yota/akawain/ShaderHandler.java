@@ -3,9 +3,6 @@ package lotes.yota.akawain;
 import android.opengl.GLES20;
 import android.util.Log;
 
-/**
- * Created by foil on 30.10.15.
- */
 class ShaderHandler{
     public int vShader, fShader, id;
 
