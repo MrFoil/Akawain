@@ -1,5 +1,6 @@
 package lotes.yota.akawain;
 
+import android.opengl.GLES20;
 import android.opengl.Matrix;
 
 /**
@@ -7,17 +8,17 @@ import android.opengl.Matrix;
  */
 public class Camera {
     private float view[], projection[], mvp[];
-    private int shaderId;
     private float ratio;
+    private int mvpId;
 
     public Camera(int width, int height, int shaderId){
-        this.shaderId = shaderId;
-        ratio = width/height;
+        ratio = (float) width/height;
 
         view = new float[16];
         projection = new float[16];
         mvp = new float[16];
 
+        mvpId = GLES20.glGetUniformLocation(shaderId, "MVP");
     }
 
     public void setLookAt(float posX, float posY, float posZ, float dirX, float dirY, float dirZ){
@@ -25,6 +26,14 @@ public class Camera {
     }
 
     public void setFrustumProjection(){
-        Matrix.frustumM(projection, 0, -ratio, ratio, -1, 1, 1, 25);
+        Matrix.frustumM(projection, 0, -ratio, ratio, -1f, 1f, 1f, 25f);
+    }
+
+    public void calculateMVP(){
+        Matrix.multiplyMM(mvp, 0, projection, 0, view, 0);
+    }
+
+    public void sendMVP(){
+        GLES20.glUniformMatrix4fv(mvpId, 1, false, mvp, 0);
     }
 }
