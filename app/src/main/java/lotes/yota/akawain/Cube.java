@@ -32,7 +32,7 @@ public class Cube {
         GLES20.glBufferData(GLES20.GL_ARRAY_BUFFER, data.length * 4, vertexBuffer, GLES20.GL_STATIC_DRAW);
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, 0);
     }
-
+    
     //render function
     public void render(int positionAttribute){
         GLES20.glBindBuffer(GLES20.GL_ARRAY_BUFFER, vbo[0]);
