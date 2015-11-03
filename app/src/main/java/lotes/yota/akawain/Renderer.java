@@ -19,20 +19,11 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     Camera camera;
     Cube cube;
     int positionAttribute;
-
+    private Loader loader;
 
     // passing application context to new Renderer
     public MyGLRenderer(final Context context) {
         activityContext = context;
-    }
-
-    // Function for loading shaders from /res/raw folder
-    protected String loadVertexShader() {
-        return Loader.readRawFile(activityContext, R.raw.vertexshader);
-    }
-
-    protected String loadFragmentShader() {
-        return Loader.readRawFile(activityContext, R.raw.fragmentshader);
     }
 
     public void onSurfaceCreated(GL10 unused, EGLConfig config) {
@@ -44,14 +35,21 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         Point size = new Point();
         display.getSize(size);
 
-        program = new ShaderHandler(loadVertexShader(), loadFragmentShader());
+        loader = new Loader(activityContext);
+        program = new ShaderHandler(loader.readFile(R.raw.vertexshader), loader.readFile(R.raw.fragmentshader));
 
         camera = new Camera(size.x, size.y, program.id);
         camera.setFrustumProjection();
         camera.setLookAt(1.5f, 3.0f, -1.0f, 0.0f, 0.0f, 0.0f);
         camera.calculateMVP();
 
-        cube = new Cube();
+        // Passing loader object to parser
+        Parser parser = new Parser();
+        // Parsing data
+        parser.Parse(loader.readFile(R.raw.cube));
+
+        // Extracting data for cube
+        cube = new Cube(parser.getCubeVxs());
         positionAttribute = GLES20.glGetAttribLocation(program.id, "a_Position");
 
     }

@@ -9,9 +9,13 @@ import android.content.Context;
 import android.util.Log;
 
 public class Loader{
-    //final private Context context;
+    static private Context context;
 
-    public static String readRawFile(final Context context, final int resourceId) {
+    public Loader(final Context context) {
+        this.context = context;
+    }
+
+    public static String readFile(final int resourceId) {
         final InputStream input = context.getResources().openRawResource(resourceId);
         final InputStreamReader reader = new InputStreamReader(input);
         final BufferedReader buffer = new BufferedReader(reader);

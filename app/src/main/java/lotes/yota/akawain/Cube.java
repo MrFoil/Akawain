@@ -10,12 +10,8 @@ public class Cube {
     private FloatBuffer vertexBuffer, rotationMatrixBuffer;
     private int vbo[] = new int [1];
 
-    public Cube(){
-       
-        Parser p = new Parser();
-        p.Parse();
-
-        float[] data = p.getVertices();
+    public Cube(float[] vertexData) {
+        float[] data = vertexData;
 
         //to fill the OpenGL buffer, we need to perform our data in bytes.
         ByteBuffer temp = ByteBuffer.allocateDirect(data.length * 4);
