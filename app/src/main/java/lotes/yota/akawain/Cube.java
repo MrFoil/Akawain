@@ -13,7 +13,7 @@ public class Cube {
     private float pos[] = new float [3];
     private int numberOfVertices, positionAttributeId;
 
-    public Cube(float[] vertexData, float posX, float posY, float posZ, int shaderId) {
+    public Cube(float[] vertexData, float[] normalData, float posX, float posY, float posZ, int shaderId) {
         this.shaderId = shaderId;
 
         numberOfVertices = vertexData.length;

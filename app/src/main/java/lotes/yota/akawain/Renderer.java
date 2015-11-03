@@ -46,12 +46,13 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         // Passing loader object to parser
         Parser parser = new Parser();
         // Parsing data
-        parser.Parse(loader.readFile(R.raw.cube));
 
+        Container container = new Container();
+
+        container.save("cube", parser.Parse(loader.readFile(R.raw.cube)));
         // Extracting data for cube
-        cube = new Cube(parser.getCubeVxs(), -2f, -1f, 0f, program.id);
-        anotherCube = new Cube(parser.getCubeVxs(), 1f, -1f, 1f, program.id);
-
+        cube = new Cube(container.getVXS("cube"), container.getNXS("cube"), -2f, -1f, 0f, program.id);
+        anotherCube = new Cube(container.getVXS("cube"), container.getNXS("cube"),1f, -1f, 1f, program.id);
     }
 
     public void onDrawFrame(GL10 unused) {

@@ -2,14 +2,16 @@ package lotes.yota.akawain
 
 import java.util.*	
 
+data class ObjectData(val vxs: FloatArray, val nxs: FloatArray)
+
 public class Parser() {
-	private var vxs = ArrayList<Float>()
-	private var nxs = ArrayList<Float>()
-	private var fxs = ArrayList<Int>()
+	public fun Parse(src: String): ObjectData {
+		var vxs = ArrayList<Float>()
+		var nxs = ArrayList<Float>()
+		
+		var fv = ArrayList<Int>()
+		var fn = ArrayList<Int>()
 
-	private var finVxs = ArrayList<Float>()
-
-	public fun Parse(src: String) {
 		src.lines().forEach {
 			when (it.take(2)) {
 				// Vertex
@@ -17,16 +19,27 @@ public class Parser() {
 				// Normals
 				"vn" -> it.drop(3).split(" ").forEach({ x -> nxs.add(x.toFloat())})
 				// Correspondings between
-				"f " -> it.drop(2).split(" ").forEach({ v -> fxs.add(v.substringBefore("//").toInt())})
+				"f " -> it.drop(2).split(" ").forEach { x -> fn.add(x.substringAfter("//").toInt());
+			                                                 fv.add(x.substringBefore("//").toInt()) }
 			}
 		}
 
-		for (f in fxs) {
-			finVxs.add(vxs[(f-1)*3])
-			finVxs.add(vxs[(f-1)*3+1])
-			finVxs.add(vxs[(f-1)*3+2])
-		}
+		return ObjectData(finArray(fv, vxs), finArray(fn, nxs))
 	}
+
+	private fun finArray(indices: ArrayList<Int>, xs: ArrayList<Float>): FloatArray {
+		var fin = ArrayList<Float>()
+
+		// Duplicating 
+		for (index in indices) {
+			fin.add(xs[(index-1) * 3])
+			fin.add(xs[(index-1) * 3 + 1])
+			fin.add(xs[(index-1) * 3 + 2])
+		}
+
+		return toFloatArray(fin)
+	}
+
 	public fun test(): FloatArray {
 		return floatArrayOf(-0.5f, -0.5f, -0.5f,
 			                 0.5f, -0.5f, -0.5f,
@@ -45,9 +58,4 @@ public class Parser() {
 		}
 		return outxs
 	}
-
-	public fun getCubeVxs(): FloatArray {
-		return toFloatArray(finVxs)
-	}
-	
 }
