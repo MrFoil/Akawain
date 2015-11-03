@@ -1,8 +1,9 @@
 attribute vec3 a_Position;
+uniform vec3 u_Translation;
 uniform mat4 MVP;
 
 void main()
 {
-    vec4 pos = MVP * vec4(a_Position.xyz, 1.0);
-    gl_Position = pos;
+    vec3 pos = a_Position + u_Translation;
+    gl_Position = MVP * vec4(pos.xyz, 1.0);
 }

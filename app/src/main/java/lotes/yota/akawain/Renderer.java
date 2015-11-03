@@ -17,7 +17,7 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
     private final Context activityContext;
     ShaderHandler program;
     Camera camera;
-    Cube cube;
+    Cube cube, anotherCube;
     int positionAttribute;
     private Loader loader;
 
@@ -49,8 +49,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         parser.Parse(loader.readFile(R.raw.cube));
 
         // Extracting data for cube
-        cube = new Cube(parser.getCubeVxs());
-        positionAttribute = GLES20.glGetAttribLocation(program.id, "a_Position");
+        cube = new Cube(parser.getCubeVxs(), -2f, -1f, 0f, program.id);
+        anotherCube = new Cube(parser.getCubeVxs(), 1f, -1f, 1f, program.id);
 
     }
 
@@ -61,7 +61,8 @@ class MyGLRenderer implements GLSurfaceView.Renderer {
         GLES20.glUseProgram(program.id);
 
         camera.sendMVP();
-        cube.render(positionAttribute);
+        cube.render();
+        anotherCube.render();
 
     }
 

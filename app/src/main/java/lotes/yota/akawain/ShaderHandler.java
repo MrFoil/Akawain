@@ -48,4 +48,8 @@ class ShaderHandler{
         GLES20.glUseProgram(id);
     }
 
+    public void addUniform(){
+
+    }
+
 }
